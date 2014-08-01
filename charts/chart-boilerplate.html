@@ -11,8 +11,13 @@
 
     html {
       font-size: 100%;
-      font-family: sans-serif;
+      font-family: "Avenir Next", "Avenir LTD", "Avenir", "Helvetica Neue" sans-serif;
+      font-weight: 300;
       color: #333;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
     }
 
     main {
@@ -41,15 +46,13 @@
       min-height: 4rem;
     }
 
-    @media (max-width: 36em) {
+    @media (max-width: 48em) {
       .wrapper {
         flex-direction: column;
       }
     }
-
-
-
   </style>
+
 </head>
 <body>
   <main>
@@ -65,8 +68,37 @@
     </div>
   </main>
 
-
   <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/underscore/underscore.js"></script>
   <script src="../bower_components/d3/d3.js"></script>
+
+  <!-- makes global billDetails var -->
+  <script src="../data/bill-details.js"></script>
+
+  <!-- makes global billSubjects var -->
+  <script src="../data/bill-subjects.js"></script>
+
+  <!-- makes global billsAmendments var -->
+  <script src="../data/bill-amendments.js"></script>
+
+  <!-- makes global billRelatedBills var -->
+  <script src="../data/bill-related-bills.js"></script>
+
+  <!-- makes global billsRecent var -->
+  <script src="../data/bills-recent.js"></script>
+
+  <script>
+    // not scoping this stuff in an IIFE for easier development w browser console.
+
+    // code here.
+    function init () {
+      console.log( "DOM ready." );
+    }
+
+    // call init on DOM ready
+    $( init );
+
+
+  </script>
 </body>
 </html>
