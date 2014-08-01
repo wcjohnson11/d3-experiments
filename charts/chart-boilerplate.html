@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title></title>
+  <style>
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+      font-family: sans-serif;
+      color: #333;
+    }
+
+    main {
+      max-width: 64rem;
+      width: -webkit-calc(100% - 2rem);
+      width: calc(100% - 2rem);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      border: 1px solid #999;
+    }
+
+    .sidebar {
+      background: #eee;
+      flex: 1;
+      padding: 1rem;
+      min-height: 4rem;
+    }
+
+    .chart {
+      flex: 3;
+      min-height: 4rem;
+    }
+
+    @media (max-width: 36em) {
+      .wrapper {
+        flex-direction: column;
+      }
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <main>
+    <div class="info" id="info">
+      <h1>Chart Experiment Boilerplate</h1>
+      <p class="tagline">Visualize it.</p>
+    </div>
+    <div class="wrapper">
+      <div class="chart" id="chart"></div>
+      <div class="sidebar" id="sidebar">
+        <h2>Metadata</h2>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/d3/d3.js"></script>
+</body>
+</html>
