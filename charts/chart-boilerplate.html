@@ -101,6 +101,13 @@
         .append( "svg" )
         .attr( "width", $( "#chart" ).width() )
         .attr( "height", 300 );
+
+      chart
+        .append( "text" )
+        .attr( "x", $( "#chart" ).width() / 2 )
+        .attr( "y", 135 )
+        .attr( "text-anchor", "middle" )
+        .text( "I'm an SVG text element" );
     }
 
     // call init on DOM ready
