@@ -1,0 +1,24 @@
+{
+  "name": "d3-experiments",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nickb1080/d3-experiments",
+  "authors": [
+    "Omnibus team"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "*",
+    "underscore": "*",
+    "backbone": "*",
+    "d3": "*"
+  }
+}

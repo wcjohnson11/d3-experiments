@@ -1,0 +1,104 @@
+<html>
+<head>
+  <title></title>
+  <style>
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+      font-family: "Avenir Next", "Avenir LTD", "Avenir", "Helvetica Neue" sans-serif;
+      font-weight: 300;
+      color: #333;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+    }
+
+    main {
+      max-width: 64rem;
+      width: -webkit-calc(100% - 2rem);
+      width: calc(100% - 2rem);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      border: 1px solid #999;
+    }
+
+    .sidebar {
+      background: #eee;
+      flex: 1;
+      padding: 1rem;
+      min-height: 4rem;
+    }
+
+    .chart {
+      flex: 3;
+      min-height: 4rem;
+    }
+
+    @media (max-width: 48em) {
+      .wrapper {
+        flex-direction: column;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <main>
+    <div class="info" id="info">
+      <h1>Chart Experiment Boilerplate</h1>
+      <p class="tagline">Visualize it.</p>
+    </div>
+    <div class="wrapper">
+      <div class="chart" id="chart"></div>
+      <div class="sidebar" id="sidebar">
+        <h2>Metadata</h2>
+      </div>
+    </div>
+  </main>
+
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/underscore/underscore.js"></script>
+  <script src="../bower_components/d3/d3.js"></script>
+
+  <!-- makes global billDetails var -->
+  <script src="../data/bill-details.js"></script>
+
+  <!-- makes global billSubjects var -->
+  <script src="../data/bill-subjects.js"></script>
+
+  <!-- makes global billsAmendments var -->
+  <script src="../data/bill-amendments.js"></script>
+
+  <!-- makes global billRelatedBills var -->
+  <script src="../data/bill-related-bills.js"></script>
+
+  <!-- makes global billsRecent var -->
+  <script src="../data/bills-recent.js"></script>
+
+  <script>
+    // not scoping this stuff in an IIFE for easier development w browser console.
+
+    // code here.
+    function init () {
+      console.log( "DOM ready." );
+    }
+
+    // call init on DOM ready
+    $( init );
+
+
+  </script>
+</body>
+</html>
