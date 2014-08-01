@@ -32,6 +32,7 @@
       display: flex;
       flex-direction: row;
       border: 1px solid #999;
+      margin: 1rem 0;
     }
 
     .sidebar {
@@ -91,8 +92,22 @@
     // not scoping this stuff in an IIFE for easier development w browser console.
 
     // code here.
+    var chart;
+
     function init () {
-      console.log( "DOM ready." );
+
+      chart = d3
+        .select( "#chart" )
+        .append( "svg" )
+        .attr( "width", $( "#chart" ).width() )
+        .attr( "height", 300 );
+
+      chart
+        .append( "text" )
+        .attr( "x", $( "#chart" ).width() / 2 )
+        .attr( "y", 135 )
+        .attr( "text-anchor", "middle" )
+        .text( "I'm an SVG text element" );
     }
 
     // call init on DOM ready
