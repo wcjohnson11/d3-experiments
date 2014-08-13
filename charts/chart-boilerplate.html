@@ -1,6 +1,5 @@
  <html>
 <head>
-  <meta charset='utf-8'>
   <title></title>
   <style>
 
@@ -96,7 +95,7 @@
 
   <!-- makes global billDetails var -->
   <script src="../data/bill-details.js"></script>
-  <!-- // <script src="./sp500.csv"></script> -->
+  <script src="./sp500.csv"></script>
 
   <!-- makes global billSubjects var -->
   <script src="../data/bill-subjects.js"></script>
@@ -142,13 +141,13 @@
         .interpolate("monotone")
         .x(function(d) { return x(d.date); })
         .y0(height)
-        .y1(function(d) { return y(d.information); });
+        .y1(function(d) { return y(d.price); });
 
     var area2 = d3.svg.area()
         .interpolate("monotone")
         .x(function(d) { return x2(d.date); })
         .y0(height2)
-        .y1(function(d) { return y2(d.information); });
+        .y1(function(d) { return y2(d.price); });
 
     var svg = d3.select("#charts").append("svg")
         .attr("width", $( "#charts" ).width())
@@ -168,62 +167,43 @@
         .attr("class", "context")
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+    d3.csv("./sp500.csv", type, function(error, data) {
+      x.domain(d3.extent(data.map(function(d) { return d.date; })));
+      y.domain([0, d3.max(data.map(function(d) { return d.price; }))]);
+      x2.domain(x.domain());
+      y2.domain(y.domain());
 
+      focus.append("path")
+          .datum(data)
+          .attr("class", "area")
+          .attr("d", area);
 
+      focus.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
 
-    // this currently only deals with one thing,
-    // alter whatever you need to alter here
-    var squashData = function(mainData){
-      var result = [];
-      if (mainData['results'][0]['actions']){
-        var search = mainData['results'][0]['actions'];
-        for (var i = 0; i < search.length; i++) {
-          result.push({});
-          result[i].date = Date.parse(new Date(search[i].datetime));
-          result[i].information = i;
-        }
-      }
-      return result;
-    };
-    // choose the data source
-    var data = squashData(billDetails);
+      focus.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
 
-    x.domain(d3.extent(data.map(function(d) { return d.date; })));
-    y.domain([0, d3.max(data.map(function(d) { return d.information; }))]);
-    x2.domain(x.domain());
-    y2.domain(y.domain());
+      context.append("path")
+          .datum(data)
+          .attr("class", "area")
+          .attr("d", area2);
 
-    focus.append("path")
-        .datum(data)
-        .attr("class", "area")
-        .attr("d", area);
+      context.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height2 + ")")
+          .call(xAxis2);
 
-    focus.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
-
-    focus.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
-
-    context.append("path")
-        .datum(data)
-        .attr("class", "area")
-        .attr("d", area2);
-
-    context.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height2 + ")")
-        .call(xAxis2);
-
-    context.append("g")
-        .attr("class", "x brush")
-        .call(brush)
-      .selectAll("rect")
-        .attr("y", -6)
-        .attr("height", height2 + 7);
-
+      context.append("g")
+          .attr("class", "x brush")
+          .call(brush)
+        .selectAll("rect")
+          .attr("y", -6)
+          .attr("height", height2 + 7);
+    });
 
     function brushed() {
       x.domain(brush.empty() ? x2.domain() : brush.extent());
@@ -233,7 +213,7 @@
 
     function type(d) {
       d.date = parseDate(d.date);
-      d.information = +d.information;
+      d.price = +d.price;
       return d;
     }
     // code here.
@@ -257,6 +237,7 @@
     };
     // call init on DOM ready
     $( init );
+
 
   </script>
 </body>
