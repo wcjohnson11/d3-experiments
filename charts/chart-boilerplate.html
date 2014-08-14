@@ -1,5 +1,6 @@
 <html>
 <head>
+  <meta charset="utf-8">
   <title></title>
   <style>
 
@@ -45,6 +46,7 @@
     .chart {
       flex: 3;
       min-height: 4rem;
+      overflow: scroll;
     }
 
     @media (max-width: 48em) {
@@ -96,6 +98,20 @@
 
     function init () {
 
+
+    // code here.
+
+    
+    // return data.reduce( function( acc, item) {
+    //   return acc.concat( item.results)
+    // }, [])
+
+    // data = data.reduce( function( acc, item) {
+    //       if (acc){
+    //         return acc.concat( item.results)
+    //       }
+    //   }, [])
+   
       chart = d3
         .select( "#chart" )
         .append( "svg" )
