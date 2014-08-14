@@ -130,15 +130,22 @@
     var margin = {top: 30, right: 10, bottom: 10, left: 10},
         width = $("#chart").width(),
         height = 500 - margin.top - margin.bottom;
+    
 
+    //Fix the scale
     var x = d3.scale.linear()
         .range([0, width])
 
     var y = d3.scale.ordinal()
-        .rangeRoundBands([0, height], .2);
+        .rangeRoundBands([0, height], .4);
+
+    var makePos = function (x) {
+      return Math.abs(x);
+    }
 
     var xAxis = d3.svg.axis()
         .scale(x)
+        .tickFormat(makePos)
         .orient("top");
 
     var svg = d3.select("#chart").append("svg")
@@ -147,18 +154,30 @@
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    var data;
+    var dataFix;
 
 
-    d3.json("../data/votes_month.json", function(error, data) {
-      data = data.results.votes;
-      //republican votes need to be converted to negative
-      // data = _.map(data, function(d) {
-      //   d.republican.yes = -d.republican.yes;
-      // })
+
+    d3.json("../data/votes_month.json", function(error, json) {
+      data = json.results.votes;
       
-      x.domain(d3.extent(data, function(d)
+      dataFix = data.reduce( function (acc, vote) {
+        return acc.concat([
+          {
+            yes: vote.democratic.yes * -1,
+            vote: vote
+          },{
+            yes: vote.republican.yes * 1,
+            vote: vote
+          }  
+        ]);
+      }, [] );
+      
+      x.domain(d3.extent(dataFix, function(d)
         {
-        return d3.max(d.democratic.yes) - d3.max(d.republican.yes); }));
+          //d3.min(d.yes) or nothing
+        return (d.yes); }));
       y.domain(data.map(function(d) {
         return d.description; }));
       
@@ -166,17 +185,15 @@
       var tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0]).html (function(data) {
             return data;});
 
-
       svg.selectAll(".bar")
-          .data(data)
+          .data(dataFix)
         .enter().append("rect")
           .attr("class", function(d) {
-            return d.value < 0 ? "bar negative" : "bar positive"; })
-          .attr("x", function(d) { return x(Math.min(0, d.democratic.yes)); })
-          // .attr("x", function(d) { console.log(-d.republican.yes)
-          //  return x(Math.min(0,-d.republican.yes)); })
-          .attr("y", function(d) { return y(d.description); })
-          .attr("width", function(d) { return Math.abs(x(d.democratic.yes) - x(0)); })
+            return d.yes < 0 ? "bar negative" : "bar positive"; })
+          .attr("x", function(d) { return x(Math.min(0, d.yes)); })
+          .attr("y", function(d) {
+           return y(d.vote.description); })
+          .attr("width", function(d) { return Math.abs(x(d.yes) - x(0)); })
           .attr("height", y.rangeBand());
 
       svg.call(tip)
@@ -194,11 +211,6 @@
           .on('mouseout', tip.hide);
 
     });
-
-    function type(d) {
-      d.value = +d.value;
-      return d;
-    }
 
     // code here.
 
