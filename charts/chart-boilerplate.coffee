@@ -50,14 +50,14 @@ class BubbleChart
         value: d.last_version.pages
         name: d.short_title
         description: d.official_title
-        # sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name
+        sponsor: if d.sponsor then d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name else null
         sponsorId: d.sponsor_id
         committee: d.committee_ids
         introduced: d.introduced_on
         congress: d.congress
         exited: d.last_action_at
         x: Math.random() * 900
-        y: Math.random() * 800
+        y: Math.random() * 800 
       }
       @nodes.push node
 

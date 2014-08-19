@@ -62,6 +62,7 @@ BubbleChart = (function() {
           value: d.last_version.pages,
           name: d.short_title,
           description: d.official_title,
+          sponsor: d.sponsor ? d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name : null,
           sponsorId: d.sponsor_id,
           committee: d.committee_ids,
           introduced: d.introduced_on,
