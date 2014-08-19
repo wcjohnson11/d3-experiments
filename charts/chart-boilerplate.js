@@ -48,7 +48,6 @@ BubbleChart = (function() {
       return parseInt(d.last_version.pages);
     });
     this.radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85]);
-    console.log(max_amount, this.radius_scale);
     this.create_nodes();
     this.create_vis();
   }
@@ -57,14 +56,14 @@ BubbleChart = (function() {
     this.data.forEach((function(_this) {
       return function(d, i) {
         var node;
-        console.log(d.last_version.pages);
         node = {
           id: i,
           radius: _this.radius_scale(parseInt(d.last_version.pages)),
           value: d.last_version.pages,
           name: d.short_title,
           description: d.official_title,
-          sponsor: d.sponsor_id,
+          sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name,
+          sponsorId: d.sponsor_id,
           committee: d.committee_ids,
           introduced: d.introduced_on,
           congress: d.congress,
@@ -87,7 +86,9 @@ BubbleChart = (function() {
       return d.id;
     });
     that = this;
-    this.circles.enter().append("circle").attr("r", 0).attr("fill", (function(_this) {
+    this.circles.enter().append("circle").attr("r", 0).attr("data-bill-id", function(d) {
+      return d.bill_id;
+    }).attr("fill", (function(_this) {
       return function(d) {
         return _this.fill_color(d.group);
       };
@@ -103,7 +104,6 @@ BubbleChart = (function() {
       return that.hide_details(d, i, this);
     });
     return this.circles.transition().duration(2000).attr("r", function(d) {
-      console.log(d);
       return d.radius;
     });
   };
@@ -188,11 +188,7 @@ BubbleChart = (function() {
   };
 
   BubbleChart.prototype.show_details = function(data, i, element) {
-    var content;
-    d3.select(element).attr("stroke", "black");
-    content = "<span class=\"name\">Title:</span><span class=\"value\"> " + data.name + "</span><br/>";
-    content += "<span class=\"name\">Amount:</span><span class=\"value\"> $" + (addCommas(data.value)) + "</span><br/>";
-    return content += "<span class=\"name\">Year:</span><span class=\"value\"> " + data.year + "</span>";
+    return d3.select(element).attr("stroke", "black");
   };
 
   BubbleChart.prototype.hide_details = function(data, i, element) {

@@ -34,7 +34,6 @@ class BubbleChart
     # use the max total_amount in the data as the max in the scale's domain
     max_amount = d3.max(@data, (d) -> parseInt(d.last_version.pages))
     @radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85])
-    console.log(max_amount, @radius_scale)
 
   # create node objects from original data
   # that will serve as the data behind each
@@ -45,14 +44,14 @@ class BubbleChart
 
   create_nodes: () =>
     @data.forEach (d, i) =>
-      console.log d.last_version.pages
       node = {
         id: i
         radius: @radius_scale(parseInt(d.last_version.pages))
         value: d.last_version.pages
         name: d.short_title
         description: d.official_title
-        sponsor: d.sponsor_id
+        sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name
+        sponsorId: d.sponsor_id
         committee: d.committee_ids
         introduced: d.introduced_on
         congress: d.congress
@@ -80,10 +79,12 @@ class BubbleChart
     # mouse callbacks
     that = this
 
+
     # radius will be set to 0 initially.
     # see transition below
     @circles.enter().append("circle")
       .attr("r", 0)
+      .attr("data-bill-id", (d) -> d.bill_id)
       .attr("fill", (d) => @fill_color(d.group))
       .attr("stroke-width", 2)
       .attr("stroke", (d) => d3.rgb(@fill_color(d.group)).darker())
@@ -94,7 +95,6 @@ class BubbleChart
     # Fancy transition to make bubbles appear, ending with the
     # correct radius
     @circles.transition().duration(2000).attr("r", (d) -> 
-      console.log d
       d.radius)
 
 
@@ -174,15 +174,13 @@ class BubbleChart
       .attr("text-anchor", "middle")
       .text((d) -> d)
 
-  # Method to hide year titiles
+  # Method to hide year titles
   hide_years: () =>
     years = @vis.selectAll(".years").remove()
 
+  #highlight moused bill
   show_details: (data, i, element) =>
     d3.select(element).attr("stroke", "black")
-    content = "<span class=\"name\">Title:</span><span class=\"value\"> #{data.name}</span><br/>"
-    content +="<span class=\"name\">Amount:</span><span class=\"value\"> $#{addCommas(data.value)}</span><br/>"
-    content +="<span class=\"name\">Year:</span><span class=\"value\"> #{data.year}</span>"
 
 
   hide_details: (data, i, element) =>
