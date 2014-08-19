@@ -24,15 +24,15 @@ BubbleChart = (function() {
       y: this.height / 2
     };
     this.year_centers = {
-      "2008": {
+      "111": {
         x: this.width / 3,
         y: this.height / 2
       },
-      "2009": {
+      "112": {
         x: this.width / 2,
         y: this.height / 2
       },
-      "2010": {
+      "113": {
         x: 2 * this.width / 3,
         y: this.height / 2
       }

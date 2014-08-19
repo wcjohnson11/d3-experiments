@@ -10,9 +10,9 @@ class BubbleChart
     # used
     @center = {x: @width / 2, y: @height / 2}
     @year_centers = {
-      "2008": {x: @width / 3, y: @height / 2},
-      "2009": {x: @width / 2, y: @height / 2},
-      "2010": {x: 2 * @width / 3, y: @height / 2}
+      "111": {x: @width / 3, y: @height / 2},
+      "112": {x: @width / 2, y: @height / 2},
+      "113": {x: 2 * @width / 3, y: @height / 2}
     }
 
     # used when setting up force and
