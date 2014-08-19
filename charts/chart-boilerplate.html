@@ -67,6 +67,7 @@
     <div class="info" id="info">
       <h1>Chart Experiment Boilerplate</h1>
       <p class="tagline">Visualize it.</p>
+      <button id="button">Toggle view</button>
     </div>
     <div class="wrapper">
       <div class="chart" id="chart"></div>
@@ -111,6 +112,20 @@
 
     // call init on DOM ready
     $( init );
+
+    var toggled = false;
+
+    $("#button").click( function(){
+      
+           if (toggled){
+             root.toggle_view();
+             toggled = false;
+           } else {
+            root.toggle_view('year');
+            toggled = true;
+           }
+    }
+        );
 
 
   </script>

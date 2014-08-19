@@ -1,7 +1,7 @@
 class BubbleChart
   constructor: (data) ->
     @data = data
-    @width = 940
+    @width = $("#chart").width()
     @height = 600
 
 
@@ -10,9 +10,9 @@ class BubbleChart
     # used
     @center = {x: @width / 2, y: @height / 2}
     @year_centers = {
-      "111": {x: @width / 3, y: @height / 2},
+      "111": {x: @width / 3, y: 2 * @height / 3},
       "112": {x: @width / 2, y: @height / 2},
-      "113": {x: 2 * @width / 3, y: @height / 2}
+      "113": {x: 2.3 * @width / 3, y: 2 * @height / 3}
     }
 
     # used when setting up force and
@@ -33,7 +33,7 @@ class BubbleChart
 
     # use the max total_amount in the data as the max in the scale's domain
     max_amount = d3.max(@data, (d) -> parseInt(d.last_version.pages))
-    @radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85])
+    @radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 60])
 
   # create node objects from original data
   # that will serve as the data behind each
@@ -50,7 +50,7 @@ class BubbleChart
         value: d.last_version.pages
         name: d.short_title
         description: d.official_title
-        sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name
+        # sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name
         sponsorId: d.sponsor_id
         committee: d.committee_ids
         introduced: d.introduced_on
@@ -136,8 +136,8 @@ class BubbleChart
   # of the visualization
   move_towards_center: (alpha) =>
     (d) =>
-      d.x = d.x + (@center.x - d.x) * (@damper + 0.02) * alpha
-      d.y = d.y + (@center.y - d.y) * (@damper + 0.02) * alpha
+      d.x = d.x + (@center.x - d.x) * (@damper + 0.01) * alpha
+      d.y = d.y + (@center.y - d.y) * (@damper + 0.01) * alpha
 
   # sets the display of bubbles to be separated
   # into each year. Does this by calling move_towards_year
@@ -162,7 +162,7 @@ class BubbleChart
 
   # Method to display year titles
   display_years: () =>
-    years_x = {"2008": 160, "2009": @width / 2, "2010": @width - 160}
+    years_x = {"111": 160, "112": @width / 2, "113": @width - 160}
     years_data = d3.keys(years_x)
     years = @vis.selectAll(".years")
       .data(years_data)

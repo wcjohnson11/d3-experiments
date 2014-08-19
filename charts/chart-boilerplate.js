@@ -17,7 +17,7 @@ BubbleChart = (function() {
     this.create_nodes = __bind(this.create_nodes, this);
     var max_amount;
     this.data = data;
-    this.width = 940;
+    this.width = $("#chart").width();
     this.height = 600;
     this.center = {
       x: this.width / 2,
@@ -26,15 +26,15 @@ BubbleChart = (function() {
     this.year_centers = {
       "111": {
         x: this.width / 3,
-        y: this.height / 2
+        y: 2 * this.height / 3
       },
       "112": {
         x: this.width / 2,
         y: this.height / 2
       },
       "113": {
-        x: 2 * this.width / 3,
-        y: this.height / 2
+        x: 2.3 * this.width / 3,
+        y: 2 * this.height / 3
       }
     };
     this.layout_gravity = -0.01;
@@ -47,7 +47,7 @@ BubbleChart = (function() {
     max_amount = d3.max(this.data, function(d) {
       return parseInt(d.last_version.pages);
     });
-    this.radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 85]);
+    this.radius_scale = d3.scale.pow().exponent(0.5).domain([0, max_amount]).range([2, 60]);
     this.create_nodes();
     this.create_vis();
   }
@@ -62,7 +62,6 @@ BubbleChart = (function() {
           value: d.last_version.pages,
           name: d.short_title,
           description: d.official_title,
-          sponsor: d.sponsor.title + " " + d.sponsor.first_name + " " + d.sponsor.last_name,
           sponsorId: d.sponsor_id,
           committee: d.committee_ids,
           introduced: d.introduced_on,
@@ -133,8 +132,8 @@ BubbleChart = (function() {
   BubbleChart.prototype.move_towards_center = function(alpha) {
     return (function(_this) {
       return function(d) {
-        d.x = d.x + (_this.center.x - d.x) * (_this.damper + 0.02) * alpha;
-        return d.y = d.y + (_this.center.y - d.y) * (_this.damper + 0.02) * alpha;
+        d.x = d.x + (_this.center.x - d.x) * (_this.damper + 0.01) * alpha;
+        return d.y = d.y + (_this.center.y - d.y) * (_this.damper + 0.01) * alpha;
       };
     })(this);
   };
@@ -167,9 +166,9 @@ BubbleChart = (function() {
   BubbleChart.prototype.display_years = function() {
     var years, years_data, years_x;
     years_x = {
-      "2008": 160,
-      "2009": this.width / 2,
-      "2010": this.width - 160
+      "111": 160,
+      "112": this.width / 2,
+      "113": this.width - 160
     };
     years_data = d3.keys(years_x);
     years = this.vis.selectAll(".years").data(years_data);
